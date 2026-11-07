@@ -6,16 +6,15 @@ This repository contains the React/Vite website only; it does not include a back
 
 ## Requirements
 
-- Node.js
-- pnpm
+- Node.js and npm
 
 ## Getting started
 
 Install dependencies and start the development server:
 
 ```sh
-pnpm install
-pnpm dev
+npm install
+npm run dev
 ```
 
 Vite prints the local development URL in the terminal.
@@ -24,11 +23,11 @@ Vite prints the local development URL in the terminal.
 
 | Command | Description |
 | --- | --- |
-| `pnpm dev` | Start the Vite development server |
-| `pnpm build` | Create a production build in `dist/` |
-| `pnpm preview` | Preview the production build locally |
-| `pnpm format` | Format project files with oxfmt |
+| `npm run dev` | Start the Vite development server |
+| `npm run build` | Create a production build in `dist/` |
+| `npm run preview` | Preview the production build locally |
+| `npm run format` | Format project files with oxfmt |
 
 ## Deployment
 
-Run `pnpm build` and deploy the generated `dist/` directory to a static hosting provider. Configure the host to serve `index.html` for application routes.
+Run `npm run build` and deploy the generated `dist/` directory to a static hosting provider. Configure the host to serve `index.html` for application routes.
