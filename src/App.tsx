@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import founderImage from "../assets/images/Rajendra.png";
 import ceoImage from "../assets/images/CEO.png";
 import partnerImage from "../assets/images/HIFIXPartner.png";
@@ -4114,7 +4114,65 @@ function CaseStudyDetail({ id }: { id: number | null }) {
 }
 
 function Contact() {
-  const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    service: "",
+    requirement: "",
+  });
+
+  const updateField = (field: keyof typeof formData, value: string) => {
+    setFormData((current) => ({ ...current, [field]: value }));
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setLoading(true);
+    setMessage("");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "1c3fbefd-d140-4e44-ad9f-6a1e5a474d2c",
+          subject: "New HiFix Service Enquiry",
+          from_name: "HiFix Website",
+          ...formData,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Web3Forms returned ${response.status}`);
+      }
+
+      const result: { success?: boolean; message?: string } = await response.json();
+      if (result.success) {
+        setMessage("Thank you! Your enquiry has been submitted successfully.");
+        setFormData({
+          name: "",
+          phone: "",
+          email: "",
+          service: "",
+          requirement: "",
+        });
+      } else {
+        setMessage(result.message || "Submission failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Service enquiry submission failed:", error);
+      setMessage("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <PageHero
@@ -4166,73 +4224,88 @@ function Contact() {
               </div>
             </div>
           </div>
-          <form
-            className="contact-form"
-            onSubmit={(e) => {
-              e.preventDefault();
-              setSent(true);
-            }}
-          >
-            {sent ? (
-              <div className="success">
-                <span>
-                  <Icon name="check" size={24} />
-                </span>
-                <h3>Enquiry prepared</h3>
-                <p>
-                  This enquiry form is not connected yet. Please call +91 90008 77499 or email
-                  prudvi.nayak@hifix.in to send your request.
-                </p>
-                <button className="btn" type="button" onClick={() => setSent(false)}>
-                  Send another enquiry
-                </button>
-              </div>
-            ) : (
-              <>
-                <div className="form-head">
-                  <span>Service Enquiry</span>
-                  <p>Fields marked * are required</p>
-                </div>
-                <label>
-                  Full name *<input required placeholder="Your name" />
-                </label>
-                <div className="form-row">
-                  <label>
-                    Phone number *<input required placeholder="+91" />
-                  </label>
-                  <label>
-                    Email address
-                    <input type="email" placeholder="name@email.com" />
-                  </label>
-                </div>
-                <label>
-                  Service required *
-                  <select required defaultValue="">
-                    <option value="" disabled>
-                      Select a service division
-                    </option>
-                    <option>Home & Lifestyle Services</option>
-                    <option>Taxi & Transportation</option>
-                    <option>Home Cleaning</option>
-                    <option>Laundry Services</option>
-                    <option>Men’s Salon Services</option>
-                    <option>Nursing &amp; Physiotherapy</option>
-                    <option>Pest Control</option>
-                    <option>Pet Care</option>
-                    <option>Play Zone</option>
-                    <option>Plumbing Services</option>
-                    <option>Tutor Services</option>
-                    <option>Pharma & Facility Cleaning</option>
-                  </select>
-                </label>
-                <label>
-                  Tell us about your requirement
-                  <textarea rows={4} placeholder="Share a few details..." />
-                </label>
-                <button className="btn" type="submit">
-                  Submit Enquiry <Icon name="arrow" size={18} />
-                </button>
-              </>
+          <form className="contact-form" onSubmit={handleSubmit}>
+            <div className="form-head">
+              <span>Service Enquiry</span>
+              <p>Fields marked * are required</p>
+            </div>
+            <label>
+              Full name *
+              <input
+                name="name"
+                required
+                placeholder="Your name"
+                value={formData.name}
+                onChange={(event) => updateField("name", event.target.value)}
+              />
+            </label>
+            <div className="form-row">
+              <label>
+                Phone number *
+                <input
+                  type="tel"
+                  name="phone"
+                  required
+                  pattern="[0-9+() -]{7,20}"
+                  placeholder="+91"
+                  value={formData.phone}
+                  onChange={(event) => updateField("phone", event.target.value)}
+                />
+              </label>
+              <label>
+                Email address
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="name@email.com"
+                  value={formData.email}
+                  onChange={(event) => updateField("email", event.target.value)}
+                />
+              </label>
+            </div>
+            <label>
+              Service required *
+              <select
+                name="service"
+                required
+                value={formData.service}
+                onChange={(event) => updateField("service", event.target.value)}
+              >
+                <option value="" disabled>
+                  Select a service division
+                </option>
+                <option>Home &amp; Lifestyle Services</option>
+                <option>Taxi &amp; Transportation</option>
+                <option>Home Cleaning</option>
+                <option>Laundry Services</option>
+                <option>Men’s Salon Services</option>
+                <option>Nursing &amp; Physiotherapy</option>
+                <option>Pest Control</option>
+                <option>Pet Care</option>
+                <option>Play Zone</option>
+                <option>Plumbing Services</option>
+                <option>Tutor Services</option>
+                <option>Pharma &amp; Facility Cleaning</option>
+              </select>
+            </label>
+            <label>
+              Tell us about your requirement
+              <textarea
+                name="requirement"
+                rows={4}
+                placeholder="Share a few details..."
+                value={formData.requirement}
+                onChange={(event) => updateField("requirement", event.target.value)}
+              />
+            </label>
+            <button className="btn" type="submit" disabled={loading}>
+              {loading ? "Submitting..." : "Submit Enquiry"}
+              {!loading && <Icon name="arrow" size={18} />}
+            </button>
+            {message && (
+              <p className="form-message" role="status" aria-live="polite">
+                {message}
+              </p>
             )}
           </form>
         </div>

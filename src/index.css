@@ -1546,6 +1546,17 @@ p {
   background: #f5f7f9;
   padding: 45px;
 }
+.contact-form .btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+}
+.form-message {
+  margin: 14px 0 0;
+  color: #102d46;
+  font-size: 13px;
+  font-weight: 600;
+}
 .form-head {
   display: flex;
   justify-content: space-between;
