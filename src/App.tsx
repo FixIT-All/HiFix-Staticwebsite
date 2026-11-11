@@ -3457,9 +3457,6 @@ function Cases() {
           <Eyebrow light>Ready for a transformation?</Eyebrow>
           <h2>Book any HiFix service and experience the difference.</h2>
           <div className="actions">
-            <a className="btn" href="https://hifix.in" target="_blank" rel="noopener noreferrer">
-              Visit hifix.in <Icon name="arrow" size={17} />
-            </a>
             <Button page="contact" secondary light>
               Make an Enquiry
             </Button>
