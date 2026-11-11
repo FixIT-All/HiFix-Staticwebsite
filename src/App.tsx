@@ -113,9 +113,7 @@ const unavailableServices = new Set<Page>([
   "dailyHelpers",
   "cooking",
   "care",
-  "decor",
   "drivers",
-  "electrical",
   "beauty",
   "mensSalon",
   "nursing",
@@ -344,6 +342,14 @@ function Header({ page }: { page: Page }) {
                   </button>
                   <button onClick={() => go("taxi")}>
                     <span>Taxi Services</span>
+                    <Icon name="arrow" size={16} />
+                  </button>
+                  <button onClick={() => go("decor")}>
+                    <span>Decor Services</span>
+                    <Icon name="arrow" size={16} />
+                  </button>
+                  <button onClick={() => go("electrical")}>
+                    <span>Electrician &amp; AC Services</span>
                     <Icon name="arrow" size={16} />
                   </button>
                 </div>
@@ -3876,6 +3882,8 @@ function Footer() {
           <button onClick={() => navigate("pharma")}>Facility Deep Cleaning</button>
           <button onClick={() => navigate("cleaning")}>Home Cleaning</button>
           <button onClick={() => navigate("taxi")}>Taxi Services</button>
+          <button onClick={() => navigate("decor")}>Decor Services</button>
+          <button onClick={() => navigate("electrical")}>Electrician &amp; AC Services</button>
         </div>
         <div>
           <h4>Contact</h4>
