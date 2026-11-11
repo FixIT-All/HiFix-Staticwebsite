@@ -311,14 +311,6 @@ p {
   display: flex;
   gap: 12px;
 }
-.store-badges {
-  margin-top: 20px;
-}
-.store-badges img {
-  width: 160px;
-  height: 48px;
-  object-fit: contain;
-}
 .hero-proof {
   position: absolute;
   right: 0;
@@ -414,6 +406,9 @@ p {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 18px;
+}
+.home-cleaning-cards {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .division-list,
 .values-grid,
@@ -1956,7 +1951,7 @@ footer {
   }
   .home-hero {
     min-height: 690px;
-    padding-bottom: 120px;
+    padding-bottom: 140px;
   }
   .hero-media img {
     object-position: 63% center;
@@ -1968,23 +1963,23 @@ footer {
     flex-direction: column;
     align-items: stretch;
   }
-  .store-badges {
-    flex-direction: row;
-    align-items: center;
-  }
-  .store-badges img {
-    width: 135px;
-    height: 42px;
-  }
   .hero-proof {
     left: 0;
     right: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .hero-proof > div:nth-child(3) {
-    display: none;
+  .hero-proof > div {
+    height: 58px;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 0 12px;
+  }
+  .hero-proof strong {
+    font-size: 19px;
   }
   .hero-proof span {
-    font-size: 8px;
+    font-size: 7px;
   }
   h2 {
     font-size: 36px;
