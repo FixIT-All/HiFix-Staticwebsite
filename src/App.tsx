@@ -3,8 +3,6 @@ import founderImage from "./assets/images/Rajendra.png";
 import ceoImage from "./assets/images/CEO.png";
 import partnerImage from "./assets/images/HIFIXPartner.png";
 import hifixLogo from "./assets/images/BGlogo.png";
-import playStoreBadge from "./assets/images/playstore.png";
-import appStoreBadge from "./assets/images/appstore.png";
 import deepCleaningCaseImage from "./assets/images/Dpc.png";
 import bathroomCleaningCaseImage from "./assets/images/Bc.png";
 import kitchenCleaningCaseImage from "./assets/images/Kc.png";
@@ -77,8 +75,7 @@ type Page =
   | "contact"
   | "why"
   | "how"
-  | "faqs"
-  | "app";
+  | "faqs";
 
 const paths: Record<Page, string> = {
   home: "/",
@@ -109,8 +106,26 @@ const paths: Record<Page, string> = {
   why: "/why-hifix",
   how: "/how-it-works",
   faqs: "/faqs",
-  app: "/download-app",
 };
+
+const unavailableServices = new Set<Page>([
+  "lifestyle",
+  "dailyHelpers",
+  "cooking",
+  "care",
+  "decor",
+  "drivers",
+  "electrical",
+  "beauty",
+  "mensSalon",
+  "nursing",
+  "pestControl",
+  "petCare",
+  "playZone",
+  "plumbing",
+  "tutors",
+  "laundry",
+]);
 
 const image = {
   home: "https://images.unsplash.com/photo-1758273705627-937374bfa978?auto=format&fit=crop&w=1800&q=85",
@@ -283,8 +298,8 @@ function Header({ page }: { page: Page }) {
         <div className="shell">
           <span>Professional service solutions for modern India</span>
           <span className="top-contact">
-            Home & Lifestyle&nbsp;&nbsp; • &nbsp;&nbsp;Transportation&nbsp;&nbsp; •
-            &nbsp;&nbsp;Facility Care
+            Facility Deep Cleaning&nbsp;&nbsp; • &nbsp;&nbsp;Home Cleaning&nbsp;&nbsp; •
+            &nbsp;&nbsp;Taxi Services
           </span>
         </div>
       </div>
@@ -305,7 +320,7 @@ function Header({ page }: { page: Page }) {
             >
               <button
                 className={
-                  ["services", "lifestyle", "electrical", "beauty", "mensSalon", "nursing", "pestControl", "petCare", "playZone", "plumbing", "tutors", "cleaning", "laundry", "taxi", "pharma"].includes(page)
+                    ["services", "cleaning", "taxi", "pharma"].includes(page)
                     ? "active"
                     : ""
                 }
@@ -319,56 +334,16 @@ function Header({ page }: { page: Page }) {
                     <span>All Services</span>
                     <Icon name="arrow" size={16} />
                   </button>
-                  <button onClick={() => go("taxi")}>
-                    <span>Taxi & Transportation</span>
+                  <button onClick={() => go("pharma")}>
+                    <span>Facility Deep Cleaning</span>
                     <Icon name="arrow" size={16} />
                   </button>
                   <button onClick={() => go("cleaning")}>
                     <span>Home Cleaning</span>
                     <Icon name="arrow" size={16} />
                   </button>
-                  <button onClick={() => go("laundry")}>
-                    <span>Laundry Services</span>
-                    <Icon name="arrow" size={16} />
-                  </button>
-                  <button onClick={() => go("electrical")}>
-                    <span>Electrician &amp; AC Services</span>
-                    <Icon name="arrow" size={16} />
-                  </button>
-                  <button onClick={() => go("beauty")}>
-                    <span>Beauty &amp; Salon Services</span>
-                    <Icon name="arrow" size={16} />
-                  </button>
-                  <button onClick={() => go("mensSalon")}>
-                    <span>Men’s Salon Services</span>
-                    <Icon name="arrow" size={16} />
-                  </button>
-                  <button onClick={() => go("nursing")}>
-                    <span>Nursing &amp; Physiotherapy</span>
-                    <Icon name="arrow" size={16} />
-                  </button>
-                  <button onClick={() => go("pestControl")}>
-                    <span>Pest Control</span>
-                    <Icon name="arrow" size={16} />
-                  </button>
-                  <button onClick={() => go("petCare")}>
-                    <span>Pet Care</span>
-                    <Icon name="arrow" size={16} />
-                  </button>
-                  <button onClick={() => go("playZone")}>
-                    <span>Play Zone</span>
-                    <Icon name="arrow" size={16} />
-                  </button>
-                  <button onClick={() => go("plumbing")}>
-                    <span>Plumbing Services</span>
-                    <Icon name="arrow" size={16} />
-                  </button>
-                  <button onClick={() => go("tutors")}>
-                    <span>Tutor Services</span>
-                    <Icon name="arrow" size={16} />
-                  </button>
-                  <button onClick={() => go("pharma")}>
-                    <span>Pharma & Facility Cleaning</span>
+                  <button onClick={() => go("taxi")}>
+                    <span>Taxi Services</span>
                     <Icon name="arrow" size={16} />
                   </button>
                 </div>
@@ -380,7 +355,7 @@ function Header({ page }: { page: Page }) {
               onMouseLeave={() => setMore(false)}
             >
               <button
-                className={["why", "how", "faqs", "app"].includes(page) ? "active" : ""}
+                className={["why", "how", "faqs"].includes(page) ? "active" : ""}
                 onClick={() => setMore(!more)}
               >
                 Explore <Icon name="chevron" size={15} />
@@ -397,10 +372,6 @@ function Header({ page }: { page: Page }) {
                   </button>
                   <button onClick={() => go("faqs")}>
                     <span>FAQs</span>
-                    <Icon name="arrow" size={16} />
-                  </button>
-                  <button onClick={() => go("app")}>
-                    <span>Download the App</span>
                     <Icon name="arrow" size={16} />
                   </button>
                 </div>
@@ -482,55 +453,10 @@ function PageHero({
   );
 }
 
-const divisions = [
-  {
-    title: "Home & Lifestyle Services",
-    text: "Trusted support for everyday living — from professional home care and skilled technicians to personal wellness and family assistance.",
-    img: image.home,
-    page: "lifestyle" as Page,
-    n: "01",
-  },
-  {
-    title: "Taxi & Transportation",
-    text: "Convenient urban mobility with dependable ride options designed around your route, schedule and comfort.",
-    img: image.taxi,
-    page: "taxi" as Page,
-    n: "02",
-  },
-  {
-    title: "Home Cleaning",
-    text: "Detailed cleaning solutions for washrooms, apartments, villas, offices, salons, gyms and upholstery.",
-    img: image.clean,
-    page: "cleaning" as Page,
-    n: "03",
-  },
-  {
-    title: "Pharma & Facility Cleaning",
-    text: "Specialized cleaning for controlled environments and demanding pharmaceutical and industrial facilities.",
-    img: image.pharma,
-    page: "pharma" as Page,
-    n: "04",
-  },
-];
-
 const homeServices: { title: string; page: Page; image: string }[] = [
-  { title: "House Cleaning", page: "cleaning", image: houseCleaningImage },
-  { title: "Daily Helpers", page: "dailyHelpers", image: dailyHelpersImage },
-  { title: "Cooking & Cleaning", page: "cooking", image: cookingImage },
-  { title: "Drivers", page: "drivers", image: driversImage },
+  { title: "Facility Deep Cleaning", page: "pharma", image: pharmaTankCaseImage },
+  { title: "Home Cleaning", page: "cleaning", image: houseCleaningImage },
   { title: "Taxi Services", page: "taxi", image: taxiImage },
-  { title: "Play Zone", page: "playZone", image: playZoneImage },
-  { title: "Child & Adults Care", page: "care", image: careImage },
-  { title: "Pet Care", page: "petCare", image: petCareImage },
-  { title: "Beauty & Salon", page: "beauty", image: beautyImage },
-  { title: "Men's Salon", page: "mensSalon", image: mensSalonImage },
-  { title: "Electrician & AC Services", page: "electrical", image: electricianImage },
-  { title: "Tutors", page: "tutors", image: tutorsImage },
-  { title: "Plumber", page: "plumbing", image: plumberImage },
-  { title: "Decor Services", page: "decor", image: decorImage },
-  { title: "Nursing", page: "nursing", image: nursingImage },
-  { title: "Laundry Services", page: "laundry", image: laundryImage },
-  { title: "Pest Control", page: "pestControl", image: pestControlImage },
 ];
 
 const cleaningHighlights = [
@@ -558,7 +484,7 @@ const homeFaqs = [
   {
     question: "What is HiFix?",
     answer:
-      "HiFix is a technology-driven home services platform that connects customers with trusted, verified professionals for a wide range of household and lifestyle services. From home cleaning and repairs to beauty, childcare, nursing, laundry, pest control and more, we make professional services accessible with just a few taps.",
+      "HiFix connects customers with professional teams for facility deep cleaning, home cleaning and taxi services.",
   },
   {
     question: "What makes HiFix different?",
@@ -583,7 +509,7 @@ const homeFaqs = [
   {
     question: "Which services does HiFix provide?",
     answer:
-      "HiFix offers a comprehensive range of services including House Cleaning, Plumbing, Electrical Services, AC Repair, Beauty & Salon, Laundry, Pest Control, Drivers, Child & Elder Care, Nursing, Pet Care, Tutors, Home Decor, Daily Helpers, Taxi Services and many more.",
+      "HiFix provides facility deep cleaning, home cleaning and taxi services.",
   },
   {
     question: "Which locations does HiFix currently serve?",
@@ -593,17 +519,17 @@ const homeFaqs = [
   {
     question: "How can I track my booking?",
     answer:
-      "You can monitor your booking status, assigned professional, estimated arrival time and service updates directly through the HiFix mobile application.",
+      "Contact HiFix Support for updates about your booking, assigned professional and estimated arrival time.",
   },
   {
     question: "Can I reschedule or cancel a booking?",
     answer:
-      "Yes. Bookings can be rescheduled or cancelled through the HiFix app, subject to our cancellation and rescheduling policy.",
+      "Yes. Contact HiFix Support to request a reschedule or cancellation, subject to our cancellation and rescheduling policy.",
   },
   {
     question: "How can I contact HiFix Support?",
     answer:
-      "Our dedicated support team is always ready to assist you. Email prudvi.nayak@hifix.in or contact us through the HiFix mobile application for quick assistance regarding bookings, payments or service-related queries.",
+      "Our dedicated support team is always ready to assist you. Email prudvi.nayak@hifix.in or call +91 90008 77499 for help with bookings, payments or service-related queries.",
   },
 ];
 
@@ -611,90 +537,73 @@ function Home() {
   const exploreItems: { title: string; text: string; page: Page }[] = [
     {
       title: "Why HiFix",
-      text: "Trusted professionals and thoughtful service, from booking to completion.",
+      text: "A dependable cleaning partner for homes, workplaces and specialist facilities.",
       page: "why",
     },
     {
       title: "How It Works",
-      text: "Choose a service, book a convenient time, and welcome your HiFix Pro.",
+      text: "Learn how to plan a service with the HiFix team.",
       page: "how",
     },
     {
       title: "FAQs",
-      text: "Find answers about services, bookings, locations and support.",
+      text: "Find answers about services, bookings and support.",
       page: "faqs",
     },
     {
-      title: "Download the App",
-      text: "Get convenient access to HiFix services from your phone.",
-      page: "app",
+      title: "Talk to Our Team",
+      text: "Tell us about your property and we’ll help plan the right service.",
+      page: "contact",
     },
   ];
   return (
     <>
       <section className="home-hero">
         <div className="hero-media">
-          <img src={image.home} alt="HiFix home service professional at work" />
+          <img src={image.clean2} alt="Professional cleaning service in a home" />
           <div className="hero-shade" />
         </div>
         <div className="shell hero-content">
-          <Eyebrow light>Trusted by 50K+ homes · 5 cities live</Eyebrow>
+          <Eyebrow light>Home cleaning · Facility deep cleaning</Eyebrow>
           <h1>
-            Professional Home Services
+            Facility Deep Cleaning
             <br />
-            <em>Available in 10 Minutes.</em>
+            <em>and Home Cleaning.</em>
           </h1>
           <p>
-            From cleaning and repairs to beauty, childcare, laundry, drivers, and more—HiFix
-            connects you with verified professionals for reliable, hassle-free services at your
-            doorstep.
+            Professional home cleaning and facility deep cleaning for offices and specialist
+            environments. HiFix brings trained teams, professional equipment and a quality-first
+            approach to every space.
           </p>
           <p className="hero-locations">
-            LIVE IN — Hyderabad, Vizag, Jaggayyapet, Kodad, SuryaPet.
+            FOR HOMES, WORKPLACES &amp; SPECIALIST FACILITIES
           </p>
           <div className="actions">
-            <Button page="services">Explore Services</Button>
-            <Button page="app" secondary light>
-              Download the App
+            <Button page="pharma">Facility Deep Cleaning</Button>
+            <Button page="cleaning" secondary light>
+              Home Cleaning
             </Button>
-          </div>
-          <div className="actions store-badges">
-            <a
-              href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img src={playStoreBadge} alt="Get it on Google Play" />
-            </a>
-            <a href="https://play.google.com/store/apps/details?id=com.hifixpartner" target="_blank" rel="noopener noreferrer">
-              <img src={appStoreBadge} alt="Download on the App Store" />
-            </a>
+            <Button page="taxi" secondary light>
+              Taxi Services
+            </Button>
           </div>
         </div>
         <div className="hero-proof">
           <div>
+            <strong>500+</strong>
+            <span>Deliveries completed</span>
+          </div>
+          <div>
             <strong>50K+</strong>
-            <span>
-              Homes that
-              <br />
-              trust us
-            </span>
+            <span>Homes that trust us</span>
           </div>
           <div>
             <strong>1M+</strong>
-            <span>
-              Hours saved
-              <br />
-              for customers
-            </span>
+            <span>Hours saved for customers</span>
           </div>
           <div>
             <strong>20+</strong>
-            <span>
-              Trusted, trained
-              <br />
-              professionals
-            </span>
+            <span>Trusted, trained professionals</span>
           </div>
         </div>
       </section>
@@ -705,17 +614,17 @@ function Home() {
             <img src={image.clean} alt="HiFix home service professional at work" />
           </div>
           <div className="intro-copy">
-            <Eyebrow>About HiFix</Eyebrow>
-            <h2>Built for your daily needs.</h2>
+            <Eyebrow>Cleaning by HiFix</Eyebrow>
+            <h2>A cleaner space, cared for by professionals.</h2>
             <p className="lead small">
-              HiFix is a modern platform built to simplify your daily needs by connecting you with
-              reliable professionals for a wide range of home services.
+              From a detailed home refresh to ongoing facility care, our teams make it easier to
+              keep the places you live and work clean, healthy and welcoming.
             </p>
             <p>
-              From plumbing and electrical work to cleaning, beauty care, childcare, nursing, taxi
-              services and more, we bring trusted services to your doorstep.
+              Choose a one-time clean or discuss a plan tailored to your property, schedule and
+              cleaning requirements.
             </p>
-            <Button page="about">About Us</Button>
+            <Button page="contact">Plan a Cleaning Service</Button>
           </div>
         </div>
       </section>
@@ -725,15 +634,14 @@ function Home() {
           <div className="section-head">
             <div>
               <Eyebrow>Our Services</Eyebrow>
-              <h2>Professional help for everyday life.</h2>
+              <h2>Professional support for your space and travel.</h2>
             </div>
             <p>
-              Explore home, lifestyle, personal care and transportation services delivered by
-              verified professionals.
+              Explore facility deep cleaning, home cleaning and taxi services from HiFix.
             </p>
           </div>
-          <div className="division-list">
-            {homeServices.slice(0, 4).map((service, index) => (
+          <div className="division-list home-cleaning-cards">
+            {homeServices.map((service, index) => (
               <article
                 className="division-card"
                 key={service.title}
@@ -752,7 +660,7 @@ function Home() {
               </article>
             ))}
           </div>
-          <Button page="services">View All Services</Button>
+          <Button page="services">Explore All Services</Button>
         </div>
       </section>
 
@@ -854,6 +762,9 @@ function Cta() {
             service solutions?
           </h2>
           <p>Connect with HiFix Innovatives for professional services.</p>
+          <div className="actions">
+            <Button page="contact">Make an Enquiry</Button>
+          </div>
         </div>
       </div>
     </section>
@@ -863,8 +774,8 @@ function Cta() {
 function WhyHiFix() {
   const reasons = [
     "Professionals are identity-verified and screened",
-    "Convenient booking through the HiFix app",
-    "A broad range of home and lifestyle services",
+    "Convenient service coordination from enquiry to completion",
+    "Facility deep cleaning, home cleaning and taxi services",
     "Service plans based on your requirements",
     "Quality-focused customer experience",
     "Support for homes and businesses",
@@ -954,8 +865,8 @@ function HowItWorks() {
               <div>
                 <span>1</span>
                 <p>
-                  <strong>Pick your Service.</strong> Browse services in the HiFix app — from hourly
-                  bookings to per-task jobs to express cleans.
+                  <strong>Pick your Service.</strong> Choose the cleaning service that best fits
+                  your space and requirements.
                 </p>
               </div>
               <div>
@@ -973,7 +884,7 @@ function HowItWorks() {
                 </p>
               </div>
             </div>
-            <Button page="app">Get the HiFix App</Button>
+            <Button page="contact">Enquire About a Service</Button>
           </div>
         </div>
       </section>
@@ -1028,63 +939,6 @@ function Faqs() {
   );
 }
 
-function AppDownload() {
-  return (
-    <>
-      <PageHero
-        eyebrow="The HiFix App"
-        title="Reliable home services, just a few taps away."
-        text="Browse services, choose a convenient time and connect with HiFix professionals through the app."
-        photo={image.home}
-        tall
-      />
-      <section className="section">
-        <div className="shell image-feature">
-          <img src={partnerImage} alt="HiFix service professional" />
-          <div>
-            <Eyebrow>Download HiFix</Eyebrow>
-            <h2>Get trusted help for everyday needs.</h2>
-            <p className="lead small">
-              Find a service, review your booking and stay up to date from your phone.
-            </p>
-            <div className="actions">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img
-                  src={playStoreBadge}
-                  alt="Get it on Google Play"
-                  style={{ width: 180, height: 54, objectFit: "contain" }}
-                />
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.hifixpartner" target="_blank" rel="noopener noreferrer">
-                <img
-                  src={appStoreBadge}
-                  alt="Download on the App Store"
-                  style={{ width: 180, height: 54, objectFit: "contain" }}
-                />
-              </a>
-            </div>
-            <div className="process-list">
-              <div>
-                <span>1</span>
-                <p>Explore available services and choose what you need.</p>
-              </div>
-              <div>
-                <span>2</span>
-                <p>Book a convenient time and follow your service updates.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <Cta />
-    </>
-  );
-}
-
 function About() {
   const achievements = [
     "5000+ service bookings completed since inception",
@@ -1115,11 +969,11 @@ function About() {
             <h2>HiFix Platform</h2>
             <p className="lead small">
               HiFix is a modern platform built to simplify your daily needs by connecting you with
-              reliable professionals for a wide range of home services.
+              reliable teams for facility deep cleaning, home cleaning and taxi services.
             </p>
             <p>
-              Whether it’s plumbing, electrical work, cleaning, beauty care, gaming setups, nurses
-              and more, we bring trusted services to your doorstep.
+              We provide facility deep cleaning, home cleaning and taxi services, with reliable
+              support from enquiry through service completion.
             </p>
             <p>
               <strong>Mr. Rajendra Prasad</strong>, Founder and Managing Director of HiFix, leads
@@ -1136,12 +990,11 @@ function About() {
               platform by delivering a seamless, reliable and technology-driven customer experience.
             </p>
             <p>
-              We connect customers with verified professionals for plumbing, electrical, cleaning,
-              beauty services, pet care, gaming zones, daycare, nursing, taxi services and many more
-              home services through our easy-to-use platform.
+              Our teams deliver professional facility deep cleaning and home cleaning, alongside
+              convenient taxi services.
             </p>
             <p className="lead small">“Quality Services at Your Doorstep”</p>
-            <Button page="app">Download the HiFix App</Button>
+            <Button page="contact">Contact HiFix</Button>
           </div>
         </div>
       </section>
@@ -1338,8 +1191,8 @@ function Services() {
     <>
       <PageHero
         eyebrow="Our Services"
-        title="Professional home services for everyday life."
-        text="Browse our range of trusted home, lifestyle, personal care, transport and facility services."
+        title="Facility deep cleaning, home cleaning and taxi services."
+        text="Explore HiFix’s professional facility cleaning, home cleaning and taxi services."
         photo={image.kitchen}
         tall
       />
@@ -1348,12 +1201,11 @@ function Services() {
           <div className="section-head">
             <div>
               <Eyebrow>Explore HiFix Services</Eyebrow>
-              <h2>Professional Home Services Designed Around Your Lifestyle</h2>
+              <h2>Choose the service you need.</h2>
             </div>
             <p>
-              Access a comprehensive range of trusted home services delivered by verified
-              professionals. From routine household maintenance to specialized solutions, HiFix
-              ensures exceptional quality, reliability, and convenience with every booking.
+              From detailed facility and home cleaning to convenient taxi services, HiFix helps
+              you arrange professional support.
             </p>
           </div>
           <div className="division-list">
@@ -1369,36 +1221,6 @@ function Services() {
                 <div className="division-content">
                   <h3>{service.title}</h3>
                   <p>{serviceDescription(service.title)}</p>
-                  <span className="circle-arrow">
-                    <Icon name="arrow" />
-                  </span>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-      <section className="section light-section">
-        <div className="shell">
-          <div className="section-head">
-            <div>
-              <Eyebrow>Specialist Services</Eyebrow>
-              <h2>Support for specialized facilities, too.</h2>
-            </div>
-          </div>
-          <div className="division-list">
-            {divisions.slice(1).map((division) => (
-              <article
-                className="division-card"
-                key={division.title}
-                onClick={() => navigate(division.page)}
-              >
-                <img src={division.img} alt={division.title} />
-                <div className="division-overlay" />
-                <span className="division-no">{division.n}</span>
-                <div className="division-content">
-                  <h3>{division.title}</h3>
-                  <p>{division.text}</p>
                   <span className="circle-arrow">
                     <Icon name="arrow" />
                   </span>
@@ -1541,6 +1363,12 @@ function Lifestyle() {
 function serviceDescription(s: string) {
   const custom: Record<string, string> = {
     "House Cleaning": "Detailed care for cleaner, fresher and more comfortable living spaces.",
+    "Facility Deep Cleaning":
+      "Detailed cleaning for commercial, pharma, biotech and specialist facilities.",
+    "Home Cleaning":
+      "Detailed cleaning for apartments, villas, kitchens, bathrooms and more.",
+    "Taxi Services":
+      "Convenient rides for city travel, airport transfers and everyday journeys.",
     "Daily Helpers": "Skilled household maintenance, repair, installation and general support.",
     "Cooking & Cleaning": "Hygienic meal preparation, kitchen assistance and household support.",
     Laundry: "Professional washing, ironing and garment care at your convenience.",
@@ -1593,7 +1421,7 @@ function DailyHelpers() {
       <PageHero
         eyebrow="Daily Helpers"
         title="Skilled help for everyday fixes."
-        text="Professional daily helper services delivered by experienced and verified HiFix Professionals for household maintenance, repairs, installations, carpentry, painting, fabrication, and general support. Book skilled experts for one-time or scheduled services through the HiFix app."
+        text="Professional daily helper services delivered by experienced and verified HiFix Professionals for household maintenance, repairs, installations, carpentry, painting, fabrication, and general support. Book skilled experts for one-time or scheduled services."
         photo={dailyHelpersImage}
         tall
       />
@@ -1607,26 +1435,6 @@ function DailyHelpers() {
               Book experienced HiFix Professionals for repairs, installations and general household
               maintenance, with one-time and scheduled service options.
             </p>
-            <div className="actions store-badges">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={playStoreBadge} alt="Get it on Google Play" />
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.hifixpartner" target="_blank" rel="noopener noreferrer">
-                <img src={appStoreBadge} alt="Download on the App Store" />
-              </a>
-            </div>
-            <a
-              className="btn"
-              href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              All 70+ Daily Helper Services <Icon name="arrow" size={17} />
-            </a>
           </div>
         </div>
       </section>
@@ -1704,26 +1512,6 @@ function CookingCleaning() {
               Get support with home cooking, meal preparation and kitchen assistance from trained
               HiFix Professionals.
             </p>
-            <div className="actions store-badges">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={playStoreBadge} alt="Get it on Google Play" />
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.hifixpartner" target="_blank" rel="noopener noreferrer">
-                <img src={appStoreBadge} alt="Download on the App Store" />
-              </a>
-            </div>
-            <a
-              className="btn"
-              href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              All 2+ Cooking &amp; Cleaning Services <Icon name="arrow" size={17} />
-            </a>
           </div>
         </div>
       </section>
@@ -1836,26 +1624,6 @@ function ChildAdultCare() {
               Arrange dependable in-home care and personalized assistance from trained and verified
               HiFix caregivers.
             </p>
-            <div className="actions store-badges">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={playStoreBadge} alt="Get it on Google Play" />
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.hifixpartner" target="_blank" rel="noopener noreferrer">
-                <img src={appStoreBadge} alt="Download on the App Store" />
-              </a>
-            </div>
-            <a
-              className="btn"
-              href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              All 3+ Child &amp; Adult Care Services <Icon name="arrow" size={17} />
-            </a>
           </div>
         </div>
       </section>
@@ -1910,26 +1678,6 @@ function DecorServices() {
               Explore theme-based decoration, lighting and event setup options tailored to your
               occasion, style and budget.
             </p>
-            <div className="actions store-badges">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={playStoreBadge} alt="Get it on Google Play" />
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.hifixpartner" target="_blank" rel="noopener noreferrer">
-                <img src={appStoreBadge} alt="Download on the App Store" />
-              </a>
-            </div>
-            <a
-              className="btn"
-              href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              All 29+ Decor Services <Icon name="arrow" size={17} />
-            </a>
           </div>
         </div>
       </section>
@@ -2010,26 +1758,6 @@ function Electrical() {
               Find a professional for installations, repairs and electrical maintenance through
               HiFix.
             </p>
-            <div className="actions store-badges">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={playStoreBadge} alt="Get it on Google Play" />
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.hifixpartner" target="_blank" rel="noopener noreferrer">
-                <img src={appStoreBadge} alt="Download on the App Store" />
-              </a>
-            </div>
-            <a
-              className="btn"
-              href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              All 100+ Electrical Services <Icon name="arrow" size={17} />
-            </a>
           </div>
         </div>
       </section>
@@ -2116,26 +1844,6 @@ function Beauty() {
             <p className="lead small">
               Book verified HiFix Professionals for convenient beauty and personal care at home.
             </p>
-            <div className="actions store-badges">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={playStoreBadge} alt="Get it on Google Play" />
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.hifixpartner" target="_blank" rel="noopener noreferrer">
-                <img src={appStoreBadge} alt="Download on the App Store" />
-              </a>
-            </div>
-            <a
-              className="btn"
-              href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              All 10+ Beauty &amp; Salon Services <Icon name="arrow" size={17} />
-            </a>
           </div>
         </div>
       </section>
@@ -2221,26 +1929,6 @@ function MensSalon() {
             <p className="lead small">
               Skilled professionals bring a convenient, hygienic salon experience to your home.
             </p>
-            <div className="actions store-badges">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={playStoreBadge} alt="Get it on Google Play" />
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.hifixpartner" target="_blank" rel="noopener noreferrer">
-                <img src={appStoreBadge} alt="Download on the App Store" />
-              </a>
-            </div>
-            <a
-              className="btn"
-              href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              All 7+ Men’s Salon Services <Icon name="arrow" size={17} />
-            </a>
           </div>
         </div>
       </section>
@@ -2324,26 +2012,6 @@ function Nursing() {
               Qualified nurses and physiotherapists provide personalized care and recovery support
               at home.
             </p>
-            <div className="actions store-badges">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={playStoreBadge} alt="Get it on Google Play" />
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.hifixpartner" target="_blank" rel="noopener noreferrer">
-                <img src={appStoreBadge} alt="Download on the App Store" />
-              </a>
-            </div>
-            <a
-              className="btn"
-              href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              All 6+ Nursing &amp; Physiotherapy Services <Icon name="arrow" size={17} />
-            </a>
           </div>
         </div>
       </section>
@@ -2429,26 +2097,6 @@ function PestControl() {
               Effective pest management delivered by trained professionals using safe, considered
               treatment methods.
             </p>
-            <div className="actions store-badges">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={playStoreBadge} alt="Get it on Google Play" />
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.hifixpartner" target="_blank" rel="noopener noreferrer">
-                <img src={appStoreBadge} alt="Download on the App Store" />
-              </a>
-            </div>
-            <a
-              className="btn"
-              href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              All 49+ Pest Control Services <Icon name="arrow" size={17} />
-            </a>
           </div>
         </div>
       </section>
@@ -2536,26 +2184,6 @@ function PetCare() {
               Professional grooming and routine care brought to your home by trained and verified
               pet care professionals.
             </p>
-            <div className="actions store-badges">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={playStoreBadge} alt="Get it on Google Play" />
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.hifixpartner" target="_blank" rel="noopener noreferrer">
-                <img src={appStoreBadge} alt="Download on the App Store" />
-              </a>
-            </div>
-            <a
-              className="btn"
-              href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              All 3+ Pet Care Services <Icon name="arrow" size={17} />
-            </a>
           </div>
         </div>
       </section>
@@ -2643,26 +2271,6 @@ function PlayZone() {
               Find professionally managed indoor and outdoor activities for children, families, and
               friends.
             </p>
-            <div className="actions store-badges">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={playStoreBadge} alt="Get it on Google Play" />
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.hifixpartner" target="_blank" rel="noopener noreferrer">
-                <img src={appStoreBadge} alt="Download on the App Store" />
-              </a>
-            </div>
-            <a
-              className="btn"
-              href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              All 3+ Play Zone Services <Icon name="arrow" size={17} />
-            </a>
           </div>
         </div>
       </section>
@@ -2758,26 +2366,6 @@ function Cleaning() {
             <p className="lead small">
               Professional home cleaning services for a hygienic, comfortable, and fresh living space.
             </p>
-            <div className="actions store-badges">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={playStoreBadge} alt="Get it on Google Play" />
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.hifixpartner" target="_blank" rel="noopener noreferrer">
-                <img src={appStoreBadge} alt="Download on the App Store" />
-              </a>
-            </div>
-            <a
-              className="btn"
-              href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              All 73+ House Cleaning Services <Icon name="arrow" size={17} />
-            </a>
           </div>
         </div>
       </section>
@@ -2861,26 +2449,6 @@ function Laundry() {
             <p className="lead small">
               Convenient garment care from trained professionals, arranged around your schedule.
             </p>
-            <div className="actions store-badges">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={playStoreBadge} alt="Get it on Google Play" />
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.hifixpartner" target="_blank" rel="noopener noreferrer">
-                <img src={appStoreBadge} alt="Download on the App Store" />
-              </a>
-            </div>
-            <a
-              className="btn"
-              href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              All 6+ Laundry Services <Icon name="arrow" size={17} />
-            </a>
           </div>
         </div>
       </section>
@@ -2967,26 +2535,6 @@ function Plumbing() {
               From leak repairs and tap installations to drainage and toilet maintenance, get
               dependable help at home.
             </p>
-            <div className="actions store-badges">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={playStoreBadge} alt="Get it on Google Play" />
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.hifixpartner" target="_blank" rel="noopener noreferrer">
-                <img src={appStoreBadge} alt="Download on the App Store" />
-              </a>
-            </div>
-            <a
-              className="btn"
-              href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              All 54+ Plumbing Services <Icon name="arrow" size={17} />
-            </a>
           </div>
         </div>
       </section>
@@ -3073,26 +2621,6 @@ function Tutors() {
               Find qualified tutors for academic subjects, engineering, spoken English, programming,
               and skill development.
             </p>
-            <div className="actions store-badges">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={playStoreBadge} alt="Get it on Google Play" />
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.hifixpartner" target="_blank" rel="noopener noreferrer">
-                <img src={appStoreBadge} alt="Download on the App Store" />
-              </a>
-            </div>
-            <a
-              className="btn"
-              href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              All 5+ Tutor Services <Icon name="arrow" size={17} />
-            </a>
           </div>
         </div>
       </section>
@@ -3257,26 +2785,6 @@ function DriverServices() {
               Arrange experienced drivers for everyday travel, family outings, business trips,
               airport transfers and long-distance journeys.
             </p>
-            <div className="actions store-badges">
-              <a
-                href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img src={playStoreBadge} alt="Get it on Google Play" />
-              </a>
-              <a href="https://play.google.com/store/apps/details?id=com.hifixpartner" target="_blank" rel="noopener noreferrer">
-                <img src={appStoreBadge} alt="Download on the App Store" />
-              </a>
-            </div>
-            <a
-              className="btn"
-              href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              All 3+ Driver Services <Icon name="arrow" size={17} />
-            </a>
           </div>
         </div>
       </section>
@@ -3607,7 +3115,7 @@ const caseStudyStories: Record<number, CaseStudyStory> = {
     customer: "Mrs Hemalatha, homemaker with extended family",
     duration: "4 hours",
     situation:
-      "Hemalatha aunty as the neighbours call her cooks for a family of six every day. She makes full meals, tiffin and sometimes sweets for festivals. The kitchen sees heavy use from 6 AM to 9 PM. Over time, the kitchen was functional but the grease situation had gotten out of control. The tiles behind the stove were almost unrecognizable. The chimney was struggling. The area above the cabinets which nobody ever cleaned had a thick layer of sticky dust and grease mixture. Her daughter in law finally convinced her to try HiFix after reading reviews on the app.",
+      "Hemalatha aunty as the neighbours call her cooks for a family of six every day. She makes full meals, tiffin and sometimes sweets for festivals. The kitchen sees heavy use from 6 AM to 9 PM. Over time, the kitchen was functional but the grease situation had gotten out of control. The tiles behind the stove were almost unrecognizable. The chimney was struggling. The area above the cabinets which nobody ever cleaned had a thick layer of sticky dust and grease mixture. Her daughter in law finally convinced her to try HiFix after reading customer reviews.",
     problem:
       "The backsplash tiles behind the stove had layered cooking grease mixed with dust, semi hardened and dark yellow brown in colour. Cabinet tops had a thick sticky layer of grease and dust that had never been cleaned since the modular kitchen was installed. Inside cabinets there were old food particles, insect droppings in corners and general grime. Chimney filters and baffle plates were completely blocked and running at maybe thirty percent efficiency. Stove drip trays and burner tops had carbonized food spills baked hard over time. The microwave interior had burnt food splatters on ceiling and walls and a foul smell when used.",
     steps: [
@@ -3952,14 +3460,9 @@ function Cases() {
             <a className="btn" href="https://hifix.in" target="_blank" rel="noopener noreferrer">
               Visit hifix.in <Icon name="arrow" size={17} />
             </a>
-            <a
-              className="btn btn-light"
-              href="https://play.google.com/store/apps/details?id=com.hifixpartner"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Download the App <Icon name="arrow" size={17} />
-            </a>
+            <Button page="contact" secondary light>
+              Make an Enquiry
+            </Button>
           </div>
         </div>
       </section>
@@ -4077,9 +3580,7 @@ function CaseStudyDetail({ id }: { id: number | null }) {
                 <div><dt>Property</dt><dd>{story.property}</dd></div>
                 <div><dt>Duration</dt><dd>{story.duration}</dd></div>
               </dl>
-              <a className="btn" href="https://play.google.com/store/apps/details?id=com.hifixpartner" target="_blank" rel="noopener noreferrer">
-                Book a Service <Icon name="arrow" size={17} />
-              </a>
+              <Button page="contact">Book a Service</Button>
             </aside>
           </div>
         </div>
@@ -4274,18 +3775,9 @@ function Contact() {
                 <option value="" disabled>
                   Select a service division
                 </option>
-                <option>Home &amp; Lifestyle Services</option>
-                <option>Taxi &amp; Transportation</option>
+                <option>Facility Deep Cleaning</option>
                 <option>Home Cleaning</option>
-                <option>Laundry Services</option>
-                <option>Men’s Salon Services</option>
-                <option>Nursing &amp; Physiotherapy</option>
-                <option>Pest Control</option>
-                <option>Pet Care</option>
-                <option>Play Zone</option>
-                <option>Plumbing Services</option>
-                <option>Tutor Services</option>
-                <option>Pharma &amp; Facility Cleaning</option>
+                <option>Taxi Services</option>
               </select>
             </label>
             <label>
@@ -4379,24 +3871,14 @@ function Footer() {
           <button onClick={() => navigate("why")}>Why HiFix</button>
           <button onClick={() => navigate("how")}>How It Works</button>
           <button onClick={() => navigate("faqs")}>FAQs</button>
-          <button onClick={() => navigate("app")}>Download the App</button>
           <button onClick={() => navigate("cases")}>Case Studies</button>
           <button onClick={() => navigate("contact")}>Contact Us</button>
         </div>
         <div>
           <h4>Services</h4>
-          <button onClick={() => navigate("lifestyle")}>Home & Lifestyle</button>
-          <button onClick={() => navigate("taxi")}>Taxi Services</button>
+          <button onClick={() => navigate("pharma")}>Facility Deep Cleaning</button>
           <button onClick={() => navigate("cleaning")}>Home Cleaning</button>
-          <button onClick={() => navigate("laundry")}>Laundry Services</button>
-          <button onClick={() => navigate("mensSalon")}>Men’s Salon</button>
-          <button onClick={() => navigate("nursing")}>Nursing &amp; Physiotherapy</button>
-          <button onClick={() => navigate("pestControl")}>Pest Control</button>
-          <button onClick={() => navigate("petCare")}>Pet Care</button>
-          <button onClick={() => navigate("playZone")}>Play Zone</button>
-          <button onClick={() => navigate("plumbing")}>Plumbing</button>
-          <button onClick={() => navigate("tutors")}>Tutor Services</button>
-          <button onClick={() => navigate("pharma")}>Pharma & Facility</button>
+          <button onClick={() => navigate("taxi")}>Taxi Services</button>
         </div>
         <div>
           <h4>Contact</h4>
@@ -4421,11 +3903,13 @@ export default function App() {
     const match = window.location.pathname.match(/^\/case-study\/(\d+)$/);
     return match ? Number(match[1]) : null;
   };
-  const pageFromPath = () =>
-    caseStudyIdFromPath() !== null
-      ? "caseDetail"
-      : (Object.entries(paths).find(([, path]) => path === window.location.pathname)?.[0] as Page) ||
-        "home";
+  const pageFromPath = () => {
+    if (caseStudyIdFromPath() !== null) return "caseDetail";
+    const matchedPage = Object.entries(paths).find(
+      ([, path]) => path === window.location.pathname,
+    )?.[0] as Page | undefined;
+    return matchedPage && !unavailableServices.has(matchedPage) ? matchedPage : "home";
+  };
   const [page, setPage] = useState<Page>(pageFromPath());
   const [caseStudyId, setCaseStudyId] = useState<number | null>(caseStudyIdFromPath());
   navigate = (next: Page) => {
@@ -4441,7 +3925,7 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   useEffect(() => {
-    document.title = "HiFix Innovatives";
+    document.title = "HiFix | Facility, Home Cleaning & Taxi";
     document.querySelectorAll<HTMLLinkElement>('link[rel="icon"]').forEach((icon) => {
       icon.href = hifixLogo;
       icon.type = "image/png";
@@ -4482,7 +3966,6 @@ export default function App() {
     why: <WhyHiFix />,
     how: <HowItWorks />,
     faqs: <Faqs />,
-    app: <AppDownload />,
     caseDetail: <CaseStudyDetail id={caseStudyId} />,
   };
   return (
