@@ -20,6 +20,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       tailwindcss(),
+      githubPagesFallback(),
       figmaSiteConfiguration(siteConfiguration),
       figmaErrorOverlayReplay(),
       figmaReactRefreshBoundaryFallback(),
@@ -45,6 +46,22 @@ export default defineConfig(({ mode }) => {
     },
   };
 });
+
+function githubPagesFallback(): Plugin {
+  return {
+    name: "github-pages-fallback",
+    writeBundle(outputOptions) {
+      if (!outputOptions.dir) {
+        this.error("GitHub Pages fallback requires a build output directory.");
+      }
+
+      fs.copyFileSync(
+        path.resolve(outputOptions.dir, "index.html"),
+        path.resolve(outputOptions.dir, "404.html"),
+      );
+    },
+  };
+}
 
 type FigmaSiteConfiguration = {
   title?: string;
