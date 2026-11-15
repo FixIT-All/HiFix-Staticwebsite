@@ -805,6 +805,10 @@ p {
   height: 100%;
   object-fit: cover;
 }
+.service-overview img.leadership-portrait {
+  height: auto;
+  object-fit: contain;
+}
 .service-overview article > div {
   padding: 55px;
 }

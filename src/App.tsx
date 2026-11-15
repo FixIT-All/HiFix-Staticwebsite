@@ -1014,7 +1014,11 @@ function About() {
           </div>
           <div className="service-overview">
             <article>
-              <img src={founderImage} alt="Mr. Rajendra Prasad" />
+              <img
+                className="leadership-portrait"
+                src={founderImage}
+                alt="Mr. Rajendra Prasad"
+              />
               <div>
                 <h3>Mr. Rajendra Prasad</h3>
                 <span>Founder &amp; Managing Director</span>
