@@ -10,6 +10,16 @@
 				"build"
 			],
 			"isBackground": false
+		},
+		{
+			"label": "Check local deploy auth and state",
+			"type": "shell",
+			"command": "cmd.exe",
+			"args": [
+				"/c",
+				"git status --short --branch && gh auth status"
+			],
+			"isBackground": false
 		}
 	]
 }
